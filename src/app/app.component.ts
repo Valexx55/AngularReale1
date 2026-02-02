@@ -8,5 +8,11 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'ngreale';
+  title = 'ngreale'; //atributos
+  //en esta clase, el js, su funcionalidad, va a aquí
+  //métodos
+  constructor()
+  {
+    console.log('En el constructor de AppComponent')
+  }
 }
