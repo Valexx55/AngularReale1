@@ -76,7 +76,64 @@
         </div>
     </div>
 
-    
+    <!-- Histórico -->
+    @if (lista_imcs && lista_imcs.length >0)
+    {
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <h5 class="card-title mb-0">Histórico</h5>
+
+                <!-- <div class="d-flex gap-2">
+                    <button (click)="ordenarPorImc()" class="btn btn-outline-secondary btn-sm">
+                        Ordenar por IMC
+                    </button>
+                    <button (click)="borrarTablaImc()" class="btn btn-outline-danger btn-sm">
+                        Borrar listado
+                    </button>
+                </div> -->
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th>PESO</th>
+                            <th>ALTURA</th>
+                            <th>IMC NUM</th>
+                            <th>LECTURA</th>
+                            <th class="text-center">FOTO</th>
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                    @for (auximc of lista_imcs; track $index) 
+                    {
+
+                        <tr class="text-center">
+                            <td >{{ auximc.peso }}</td>
+                            <td>{{ auximc.altura }}</td>
+                            <td><strong>{{ auximc.numerico }}</strong></td>
+                            <td><span>{{ auximc.lectura }}</span></td>
+                            <td>
+                                <img src="{{ auximc.foto }}" alt="estado imc" class="rounded"
+                                    style="width: 60px; height: 60px; object-fit: cover;">
+                            </td>
+                        </tr>
+                    }
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+    }
+
+
+
+
 </div>
-
-

@@ -17,6 +17,8 @@ export class ImcComponent {
   // imc:number;
   oimc: Imc;
   lista_imcs: Array<Imc>//
+  mediaAltura: number = 0;
+  mediaPeso: number = 0;
   
   static readonly FOTO_DESNUTRIDO: string = "/desnutrido.jpg";
   static readonly FOTO_DELGADO: string = "/delgado.jpg";
@@ -109,6 +111,33 @@ constructor ()
 
 
     return imc_aux;
+  }
+
+  obtenerMediaAltura(array_imcs: Array<Imc>): number {
+    let media: number = 0;
+    let total: number = 0;
+
+    //sumo los valores - sumatorio / 
+    array_imcs.forEach(item_imc => { total += item_imc.altura });
+    //divido entre el nº de elementos
+    media = total / array_imcs.length;
+
+    return media;
+
+  }
+
+
+   obtenerMediaPeso(array_imcs: Array<Imc>): number {
+    let media: number = 0;
+    let total: number = 0;
+
+    //sumo los valores - sumatorio / 
+    array_imcs.forEach(item_imc => { total += item_imc.peso });
+    //divido entre el nº de elementos
+    media = total / array_imcs.length;
+
+    return media;
+
   }
 
   
