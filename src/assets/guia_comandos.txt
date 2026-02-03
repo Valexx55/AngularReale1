@@ -16,6 +16,9 @@ Añadimos bootsrap - npm install bootstrap
 Añadiendo componentes - ng g c <ruta_componente/nombre>
 
 
+Añadiendo clase IMC - ng g class models/imc
+Add el enum - ng g enum models/tipoImc
+
 
 
 
