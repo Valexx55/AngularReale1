@@ -1,1 +1,82 @@
-<p>imc works!</p>
+<div class="container py-4">
+
+    <!-- Título -->
+    <div class="row mb-3">
+        <div class="col">
+            <h2 class="mb-0">{{ titulo }}</h2>
+            <small class="text-muted">Calcula tu IMC y guarda el histórico</small>
+        </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-3">Datos</h5>
+
+                    <div class="mb-3">
+                        <label for="peso" class="form-label">Peso (kg)</label>
+                        <div class="input-group">
+                            <input id="peso" type="number" name="peso" class="form-control" [(ngModel)]="oimc.peso"
+                                placeholder="Ej. 75" />
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="altura" class="form-label">Altura (m)</label>
+                        <div class="input-group">
+                            <input id="altura" type="number" name="altura" class="form-control"
+                                [(ngModel)]="oimc.altura" placeholder="Ej. 1.78" step="0.01" />
+                            <span class="input-group-text">m</span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button (click)="calcularIMC()" class="btn btn-primary"
+                            [disabled]="!oimc.peso || !oimc.altura || oimc.peso <= 0 || oimc.altura <= 0">
+                            Calcular IMC
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultado -->
+        <div class="col-12 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Resultado</h5>
+
+                    @if (oimc.numerico !== 0) {
+                    <div class="d-flex align-items-center gap-3">
+                        <img [src]="oimc.foto" alt="estado imc" class="img-thumbnail"
+                            style="width: 120px; height: 120px; object-fit: cover;" />
+
+                        <div>
+                            <div class="fs-5">
+                                Tu IMC: <strong>{{ oimc.numerico }}</strong>
+                            </div>
+                            <div class="text-muted">
+                                {{ oimc.lectura }}
+                            </div>
+                        </div>
+                    </div>
+                    } @else {
+                    <div class="text-muted">
+                        Introduce peso y altura válidos y pulsa <strong>Calcular IMC</strong>.
+                    </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+
