@@ -53,6 +53,22 @@ constructor ()
   this.lista_imcs = new Array<Imc>();
 }
 
+ordenarPorImc(){
+
+  this.lista_imcs.sort(
+    (imc1, imc2) => imc1.numerico-imc2.numerico 
+  )
+
+}
+
+borrarTablaImc()
+{
+    this.lista_imcs.length = 0// = new Array<Imc>()
+    this.oimc.altura = 0
+    this.oimc.numerico = 0
+    this.oimc.peso = 0
+}
+
   calcularIMC() {
     console.log("calcular imc boton tocado");
     this.oimc.numerico = this.oimc.peso / (this.oimc.altura * this.oimc.altura);
@@ -90,6 +106,8 @@ constructor ()
     this.lista_imcs.push(nuevoImc) //colecciono la lista
 
     console.table(this.lista_imcs)
+    this.mediaPeso = this.obtenerMediaPeso(this.lista_imcs)
+    this.mediaAltura = this.obtenerMediaAltura(this.lista_imcs)
     //this.lista_imcs.forEach(i => console.table(i))
     //TODO: 2 funciones 1 calcular la media del peso de la lista 2 la meeida de la altura
     // y lo añadimos a dos nuevas propiedades del Componenet

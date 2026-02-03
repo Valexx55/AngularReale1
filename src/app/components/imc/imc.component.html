@@ -84,14 +84,14 @@
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                 <h5 class="card-title mb-0">Histórico</h5>
 
-                <!-- <div class="d-flex gap-2">
+                <div class="d-flex gap-2">
                     <button (click)="ordenarPorImc()" class="btn btn-outline-secondary btn-sm">
                         Ordenar por IMC
                     </button>
                     <button (click)="borrarTablaImc()" class="btn btn-outline-danger btn-sm">
                         Borrar listado
                     </button>
-                </div> -->
+                </div> 
             </div>
 
             <div class="table-responsive">
@@ -127,6 +127,20 @@
 
                 </table>
             </div>
+
+            <hr class="my-3" />
+
+            <div class="row text-center">
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">MEDIA altura</div>
+                    <div class="fs-5"><strong>{{ mediaAltura }}</strong></div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="text-muted">MEDIA peso</div>
+                    <div class="fs-5"><strong>{{ mediaPeso }}</strong></div>
+                </div>
+            </div>
+
 
         </div>
 
