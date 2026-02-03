@@ -1,1 +1,46 @@
-<p>dni works!</p>
+<p>{{titulo}}</p>
+
+<div class="form-check">
+  <input class="form-check-input" type="radio" value="sin" name="prefijo" id="sin" checked>
+  <label class="form-check-label" for="sin">
+    Sin letra
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" value="0" name="prefijo" id="x">
+  <label class="form-check-label" for="x">
+    X
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" value="1" name="prefijo" id="y">
+  <label class="form-check-label" for="y">
+    Y
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" value="2" name="prefijo" id="z" >
+  <label class="form-check-label" for="z">
+    Z
+  </label>
+</div>
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1" >DNI</span>
+    <input type="number" [(ngModel)]="numero" class="form-control" placeholder="Meta su dni" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+<button (click)="calcularLetraDni()" class="btn btn-primary">Calcular letra</button>
+
+<!-- forma "antigua" -->
+<!-- <div *ngIf="letra!=''">
+    Su letra es {{letra}}
+</div>
+ -->
+
+<!-- forma moderna > ng 17-->
+@if (letra!='' && numero) {
+<div>
+    Su letra es {{letra}}
+</div>
+} 
