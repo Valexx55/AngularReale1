@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { RUTA_SERVIDOR_ALUMNOS } from '../config/app';
 import { Observable } from 'rxjs';
@@ -26,6 +26,7 @@ export class AlumnoService {
     //this.httpClient nuestro cliente para interactuar con el API REST (JSON)
    }
 
+   cabeceras: HttpHeaders = new HttpHeaders({'Content-type':'application/json'})
    //GET ALL - LEER TODOS LOS ALUMNOS
 
    // al indicar el tipo de dato que recibo la petición angular automáticamente va de serializar el cuerpo de la respuesta en un array de alumnos   Array<Alumno>
@@ -37,5 +38,10 @@ export class AlumnoService {
    borrarAlumnoPorId(id:number): Observable<void>
    {
     return this.httpClient.delete<void>(RUTA_SERVIDOR_ALUMNOS+"/"+id)
+   }
+
+   crearAlumno(alumno:Alumno): Observable<Alumno>
+   {
+    return this.httpClient.post<Alumno>(RUTA_SERVIDOR_ALUMNOS, alumno, {headers:this.cabeceras})
    }
 }
