@@ -1,0 +1,1 @@
+export const RUTA_SERVIDOR_ALUMNOS = "https://my-json-server.typicode.com/valexx55/angularesjson/alumno"

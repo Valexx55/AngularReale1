@@ -24,7 +24,7 @@ Add el enum - ng g enum models/tipoImc
 
 crear el componente (plantilla, css y clase) ng g c components/alumn
 enrutar el componente - {path:'alumnos', component: AlumnoComponent} en  app routes
-definir el tipo de datos (DTO)
+definir el tipo de datos (DTO) - ng g class models/alumno
 crear el servicio - ng g service services/alumno
 configurar el acceso HTTP - HttpModule - provideHttpClient() en app config ts
 inyectar el servicio en el componente

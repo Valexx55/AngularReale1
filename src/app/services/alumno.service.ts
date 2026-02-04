@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RUTA_SERVIDOR_ALUMNOS } from '../config/app';
+import { Observable } from 'rxjs';
+import { Alumno } from '../models/alumno';
 
 //decordador del servicio. 
 // al arrancar angular creará una instancia única de este de esta clase patrón singleton y lo añadirá lo inyectará donde esté solicitado el componente de turno 
@@ -21,5 +24,13 @@ export class AlumnoService {
   constructor(private httpClient:HttpClient) 
   {
     //this.httpClient nuestro cliente para interactuar con el API REST (JSON)
+   }
+
+   //GET ALL - LEER TODOS LOS ALUMNOS
+
+   // al indicar el tipo de dato que recibo la petición angular automáticamente va de serializar el cuerpo de la respuesta en un array de alumnos   Array<Alumno>
+   leerTodosLosAlumnos () : Observable<Array<Alumno>>
+   {
+     return this.httpClient.get<Array<Alumno>>(RUTA_SERVIDOR_ALUMNOS)
    }
 }
