@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Alumno } from '../../models/alumno';
 import { Observer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario-alumno',
@@ -15,7 +16,7 @@ export class FormularioAlumnoComponent {
   alumno!:Alumno
   observador: Observer<Alumno>;
 
-  constructor(private alumnoService:AlumnoService)
+  constructor(private alumnoService:AlumnoService, private router:Router)
   {
     this.alumno = new Alumno()
     
@@ -25,6 +26,8 @@ export class FormularioAlumnoComponent {
       next: (alumno_nuevo) => {
         console.log(`ID DE ALUMNO nuevo ${alumno_nuevo.id}`);
         alert('Alumno Guardado Correctamente :)');
+        //TODO vovler al listado de alumnos, programáticamente
+        this.router.navigateByUrl("/alumnos")
       }
     }
   }
@@ -32,6 +35,16 @@ export class FormularioAlumnoComponent {
   crearAlumno()
   {
     this.alumnoService.crearAlumno(this.alumno).subscribe(this.observador)
+    
+    /*this.alumnoService.crearAlumno(this.alumno).subscribe({
+      complete: () => console.log('ha terminado'),
+      error: (error) => console.error('error = ' + error),
+      next: (alumno_nuevo) => {
+        console.log(`ID DE ALUMNO nuevo ${alumno_nuevo.id}`);
+        alert('Alumno Guardado Correctamente :)');
+
+      }
+    })*/
     
 
   }
