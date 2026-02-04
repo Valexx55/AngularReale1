@@ -33,4 +33,9 @@ export class AlumnoService {
    {
      return this.httpClient.get<Array<Alumno>>(RUTA_SERVIDOR_ALUMNOS)
    }
+
+   borrarAlumnoPorId(id:number): Observable<void>
+   {
+    return this.httpClient.delete<void>(RUTA_SERVIDOR_ALUMNOS+"/"+id)
+   }
 }

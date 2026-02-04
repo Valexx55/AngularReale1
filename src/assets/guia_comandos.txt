@@ -28,3 +28,12 @@ definir el tipo de datos (DTO) - ng g class models/alumno
 crear el servicio - ng g service services/alumno
 configurar el acceso HTTP - HttpModule - provideHttpClient() en app config ts
 inyectar el servicio en el componente
+
+
+instalar librerias iconos
+
+https://github.com/ng-icons/ng-icons
+
+npm i @ng-icons/core@31 "adaptador a todos los iconos"
+@ng-icons/heroicons@31 "libería heroicons"
+@ng-icons/bootstrap-icons@31 "libería bootstrap"

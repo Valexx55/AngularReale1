@@ -1,0 +1,10 @@
+.listaAlumnos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    margin: 1rem;
+    width: 18rem;
+}
