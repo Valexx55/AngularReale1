@@ -115,7 +115,11 @@
                             <td >{{ auximc.peso }}</td>
                             <td>{{ auximc.altura }}</td>
                             <td><strong>{{ auximc.numerico }}</strong></td>
-                            <td><span>{{ auximc.lectura }}</span></td>
+                            <td>
+                                <span [class]="getColorCategoria(auximc.categoria)">
+                                {{ auximc.lectura }}
+                                </span>
+                            </td>
                             <td>
                                 <img src="{{ auximc.foto }}" alt="estado imc" class="rounded"
                                     style="width: 60px; height: 60px; object-fit: cover;">

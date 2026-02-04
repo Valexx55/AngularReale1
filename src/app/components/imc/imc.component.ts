@@ -7,24 +7,23 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-imc',
   imports: [FormsModule],
   templateUrl: './imc.component.html',
-  styleUrl: './imc.component.css'
+  styleUrl: './imc.component.css',
 })
 export class ImcComponent {
-
-  titulo: string = "CALCULO DEL IMC";
+  titulo: string = 'CALCULO DEL IMC';
   // peso:number;
   // altura:number;
   // imc:number;
   oimc: Imc;
-  lista_imcs: Array<Imc>//
+  lista_imcs: Array<Imc>; //
   mediaAltura: number = 0;
   mediaPeso: number = 0;
-  
-  static readonly FOTO_DESNUTRIDO: string = "/desnutrido.jpg";
-  static readonly FOTO_DELGADO: string = "/delgado.jpg";
-  static readonly FOTO_IDEAL: string = "/ideal.jpg";
-  static readonly FOTO_SOBREPESO: string = "/sobrepeso.jpg";
-  static readonly FOTO_OBESO: string = "/obeso.jpg";
+
+  static readonly FOTO_DESNUTRIDO: string = '/desnutrido.jpg';
+  static readonly FOTO_DELGADO: string = '/delgado.jpg';
+  static readonly FOTO_IDEAL: string = '/ideal.jpg';
+  static readonly FOTO_SOBREPESO: string = '/sobrepeso.jpg';
+  static readonly FOTO_OBESO: string = '/obeso.jpg';
 
   /*
 
@@ -47,33 +46,27 @@ export class ImcComponent {
    * 
   */
 
-constructor ()
-{
-  this.oimc = new Imc();
-  this.lista_imcs = new Array<Imc>();
-}
+  constructor() {
+    this.oimc = new Imc();
+    this.lista_imcs = new Array<Imc>();
+  }
 
-ordenarPorImc(){
+  ordenarPorImc() {
+    this.lista_imcs.sort((imc1, imc2) => imc1.numerico - imc2.numerico);
+  }
 
-  this.lista_imcs.sort(
-    (imc1, imc2) => imc1.numerico-imc2.numerico 
-  )
-
-}
-
-borrarTablaImc()
-{
-    this.lista_imcs.length = 0// = new Array<Imc>()
-    this.oimc.altura = 0
-    this.oimc.numerico = 0
-    this.oimc.peso = 0
-}
+  borrarTablaImc() {
+    this.lista_imcs.length = 0; // = new Array<Imc>()
+    this.oimc.altura = 0;
+    this.oimc.numerico = 0;
+    this.oimc.peso = 0;
+  }
 
   calcularIMC() {
-    console.log("calcular imc boton tocado");
+    console.log('calcular imc boton tocado');
     this.oimc.numerico = this.oimc.peso / (this.oimc.altura * this.oimc.altura);
     //casting de String a numero
-    this.oimc.numerico = + this.oimc.numerico.toFixed(2);
+    this.oimc.numerico = +this.oimc.numerico.toFixed(2);
     //this.oimc.numerico = parseFloat(this.oimc.numerico.toFixed(2));
     if (this.oimc.numerico < 16) {
       //desnutrido
@@ -97,36 +90,31 @@ borrarTablaImc()
       this.oimc.foto = ImcComponent.FOTO_SOBREPESO;
     } else if (this.oimc.numerico >= 31) {
       //obeso
-      this.oimc.categoria = TipoImc.OBESO;//orden
-      this.oimc.lectura = TipoImc[TipoImc.OBESO];//accedo al Enumerado como String
+      this.oimc.categoria = TipoImc.OBESO; //orden
+      this.oimc.lectura = TipoImc[TipoImc.OBESO]; //accedo al Enumerado como String
       this.oimc.foto = ImcComponent.FOTO_OBESO;
-
     }
-    let nuevoImc:Imc = this.nuevoItemImc(this.oimc)
-    this.lista_imcs.push(nuevoImc) //colecciono la lista
+    let nuevoImc: Imc = this.nuevoItemImc(this.oimc);
+    this.lista_imcs.push(nuevoImc); //colecciono la lista
 
-    console.table(this.lista_imcs)
-    this.mediaPeso = this.obtenerMediaPeso(this.lista_imcs)
-    this.mediaAltura = this.obtenerMediaAltura(this.lista_imcs)
+    console.table(this.lista_imcs);
+    this.mediaPeso = this.obtenerMediaPeso(this.lista_imcs);
+    this.mediaAltura = this.obtenerMediaAltura(this.lista_imcs);
     //this.lista_imcs.forEach(i => console.table(i))
     //TODO: 2 funciones 1 calcular la media del peso de la lista 2 la meeida de la altura
     // y lo añadimos a dos nuevas propiedades del Componenet
-
   }
 
-
-  nuevoItemImc (imc: Imc): Imc
-  {
+  nuevoItemImc(imc: Imc): Imc {
     let imc_aux: Imc;
 
-      imc_aux = new Imc();
-      imc_aux.altura = imc.altura;
-      imc_aux.peso = imc.peso;
-      imc_aux.numerico = imc.numerico;
-      imc_aux.categoria = imc.categoria;
-      imc_aux.lectura = imc.lectura;
-      imc_aux.foto = imc.foto;
-
+    imc_aux = new Imc();
+    imc_aux.altura = imc.altura;
+    imc_aux.peso = imc.peso;
+    imc_aux.numerico = imc.numerico;
+    imc_aux.categoria = imc.categoria;
+    imc_aux.lectura = imc.lectura;
+    imc_aux.foto = imc.foto;
 
     return imc_aux;
   }
@@ -135,29 +123,47 @@ borrarTablaImc()
     let media: number = 0;
     let total: number = 0;
 
-    //sumo los valores - sumatorio / 
-    array_imcs.forEach(item_imc => { total += item_imc.altura });
+    //sumo los valores - sumatorio /
+    array_imcs.forEach((item_imc) => {
+      total += item_imc.altura;
+    });
     //divido entre el nº de elementos
     media = total / array_imcs.length;
 
     return media;
-
   }
 
-
-   obtenerMediaPeso(array_imcs: Array<Imc>): number {
+  obtenerMediaPeso(array_imcs: Array<Imc>): number {
     let media: number = 0;
     let total: number = 0;
 
-    //sumo los valores - sumatorio / 
-    array_imcs.forEach(item_imc => { total += item_imc.peso });
+    //sumo los valores - sumatorio /
+    array_imcs.forEach((item_imc) => {
+      total += item_imc.peso;
+    });
     //divido entre el nº de elementos
     media = total / array_imcs.length;
 
     return media;
-
   }
 
-  
+  getColorCategoria(categoria: TipoImc): string {
+    let estilo: string = '';
 
+    switch (categoria) {
+      case TipoImc.DESNUTRIDO:
+      case TipoImc.OBESO:
+        //estilo = 'text-danger';
+        estilo = 'badge bg-danger';
+        break;
+      case TipoImc.DELGADO:
+      case TipoImc.SOBREPESO:
+        estilo = 'badge bg-warning';//'text-warning';
+        break;
+      default: //IDEAL
+        estilo = 'badge bg-success';//'text-success';
+    }
+
+    return estilo;
+  }
 }
