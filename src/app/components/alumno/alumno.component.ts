@@ -6,10 +6,11 @@ import { DatePipe } from '@angular/common';
 import {NgIcon, provideIcons} from '@ng-icons/core'
 import { heroTrashSolid } from '@ng-icons/heroicons/solid';
 import { bootstrapPencilFill } from '@ng-icons/bootstrap-icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-alumno',
-  imports: [DatePipe, NgIcon],
+  imports: [DatePipe, NgIcon, RouterLink],
   templateUrl: './alumno.component.html',
   styleUrl: './alumno.component.css',
   providers: [

@@ -37,3 +37,7 @@ https://github.com/ng-icons/ng-icons
 npm i @ng-icons/core@31 "adaptador a todos los iconos"
 @ng-icons/heroicons@31 "libería heroicons"
 @ng-icons/bootstrap-icons@31 "libería bootstrap"
+
+
+creamos formulario alumno (para alta y modificación) -ng g c components/formularioAlumno
+enrutamos
