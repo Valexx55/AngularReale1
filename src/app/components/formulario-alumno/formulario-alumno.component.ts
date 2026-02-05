@@ -2,7 +2,7 @@ import { AlumnoService } from './../../services/alumno.service';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Alumno } from '../../models/alumno';
-import { Observer } from 'rxjs';
+import { firstValueFrom, Observer } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -31,16 +31,53 @@ export class FormularioAlumnoComponent implements OnInit {
         alert('Alumno Guardado Correctamente :)');
         //TODO vovler al listado de alumnos, programáticamente
         this.router.navigateByUrl("/alumnos")
+        sessionStorage.clear()
       }
     }
   }
+/*
+  async recuperarAlumno(modo:number, idAlumno:number):Promise<Alumno>
+  {
+    let alumnoEd:Alumno
+    switch (modo)
+    {
+      case 1: //vía servicio 
+       alumnoEd = this.alumnoService.leerAlumnoEnEdicion()
+      break;
+      case 2: //vía storage
+          let alumnoEdJson = sessionStorage.getItem("alumnoed");
+          alumnoEd = JSON.parse(alumnoEdJson!)
+      break;
+      case 3: 
+          alumnoEd =  await firstValueFrom( this.alumnoService.leerAlumnoPorId(idAlumno));
+      break;
+    }
+    return alumnoEd
+  }*/
+
   ngOnInit(): void {
     
     this.enEdicion = this.ruta.snapshot.paramMap.get('id')!=null
+    
+    //let idEdit = this.ruta.snapshot.paramMap.get('id');
+    //this.enEdicion = !!idEdit
+    //de esta forma, pasamos a un boolean el dato y lo negamos !!
+    //si es null, al hacer !null --> true y luego !true --> false
+    //si es un número , al hacer !5 --> false luego !false --> true 
+    
+
     if (this.enEdicion)
     {
       console.log('EN editar alumno')
-      this.alumno = this.alumnoService.leerAlumnoEnEdicion()
+
+      //this.alumno = this.recuperarAlumno(1)
+      //OPCIÓN 1
+      //this.alumno = this.alumnoService.leerAlumnoEnEdicion()
+      //OPCIÓN 2 VÍA sessionStorage
+      let alumnoEdJson = sessionStorage.getItem("alumnoed");
+      this.alumno = JSON.parse(alumnoEdJson!)
+      //TODO: hacerlo genérico para el 3er método
+      
     } else {
       console.log('EN crear alumno')
     }

@@ -62,4 +62,8 @@ export class AlumnoService {
    {
     return this.httpClient.put<Alumno>(RUTA_SERVIDOR_ALUMNOS+"/"+alumno.id, alumno, {headers:this.cabeceras})
    }
+
+   leerAlumnoPorId(id:number):Observable<Alumno>{
+    return this.httpClient.get<Alumno>(`${RUTA_SERVIDOR_ALUMNOS}/${id}`)
+  }
 }

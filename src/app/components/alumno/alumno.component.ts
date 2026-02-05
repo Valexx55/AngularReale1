@@ -84,7 +84,10 @@ borrarAlumno(idBorrar:number)
 
 editarAlumno(alumno:Alumno){
 console.log("Ha tocado editar el " + alumno.id)
-this.alumnoService.guardarAlumnnoEnEdicion(alumno)
+//OPCIÓN 1)
+//this.alumnoService.guardarAlumnnoEnEdicion(alumno)
+//OPCIÓN 2)
+sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
 this.router.navigate(["/alumno/form/edit", alumno.id])
 
 }
