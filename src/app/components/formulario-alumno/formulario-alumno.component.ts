@@ -1,9 +1,11 @@
 import { AlumnoService } from './../../services/alumno.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Alumno } from '../../models/alumno';
 import { firstValueFrom, Observer } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as AlumnosActions from '../../alumnos/store/alumnos.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-formulario-alumno',
@@ -16,6 +18,7 @@ export class FormularioAlumnoComponent implements OnInit {
   alumno!:Alumno
   observador: Observer<Alumno>;
   enEdicion!:Boolean;//para saber si he llegado al C para crear o Editar
+  store = inject(Store)
 
   //Router //consigo gestionar la navegación de forma programática
   //ActivatedRoute // consigo acceder al location HREF desde Angular
@@ -29,6 +32,12 @@ export class FormularioAlumnoComponent implements OnInit {
       next: (alumno_nuevo) => {
         console.log(`ID DE ALUMNO nuevo ${alumno_nuevo.id}`);
         alert('Alumno Guardado Correctamente :)');
+        if (this.enEdicion)
+        {
+          this.store.dispatch(AlumnosActions.updateAlumnosSuccess({alumno:alumno_nuevo}))
+        } else {
+          this.store.dispatch(AlumnosActions.createAlumnosSuccess({alumno:alumno_nuevo}))
+        }
         //TODO vovler al listado de alumnos, programáticamente
         this.router.navigateByUrl("/alumnos")
         sessionStorage.clear()

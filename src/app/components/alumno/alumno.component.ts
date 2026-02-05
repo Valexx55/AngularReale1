@@ -1,14 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AlumnoService } from '../../services/alumno.service';
 import { Alumno } from '../../models/alumno';
-import { Observer } from 'rxjs';
+import { Observer, take } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import {NgIcon, provideIcons} from '@ng-icons/core'
+import { NgIcon, provideIcons } from '@ng-icons/core';
 import { heroTrashSolid } from '@ng-icons/heroicons/solid';
 import { bootstrapPencilFill } from '@ng-icons/bootstrap-icons';
 import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as AlumnosActions from '../../alumnos/store/alumnos.actions'
+import * as AlumnosActions from '../../alumnos/store/alumnos.actions';
 
 @Component({
   selector: 'app-alumno',
@@ -18,31 +18,31 @@ import * as AlumnosActions from '../../alumnos/store/alumnos.actions'
   providers: [
     provideIcons({
       heroTrashSolid,
-      bootstrapPencilFill
-    })
-  ]
+      bootstrapPencilFill,
+    }),
+  ],
 })
 export class AlumnoComponent implements OnInit {
-
   //alumnoService2: AlumnoService = inject(AlumnoService) //forma moderna
 
-  lista_alumnos!: Array<Alumno>
+  lista_alumnos!: Array<Alumno>;
 
- observerAlumnos!: Observer<Alumno> 
+  observerAlumnos!: Observer<Alumno>;
 
- //inyección, igual que por el parámetro del consucutor
- store = inject(Store)//obtengo la instancia del store (memoria de Redux)
+  //inyección, igual que por el parámetro del consucutor
+  store = inject(Store); //obtengo la instancia del store (memoria de Redux)
 
- //alumnosRedux representa una lsita actualizada del store en tiempo real
- //accedemos a la información centralizada en tiempo real
- alumnosRedux$ = this.store.select(state => state.alumnos.list)
-//hay una convecnión con las variables reactivas, que es ponerle un $ al final
-//Observable , va con $
- loading$ = this.store.select(state => state.alumnos.loading)
+  //alumnosRedux representa una lsita actualizada del store en tiempo real
+  //accedemos a la información centralizada en tiempo real
+  alumnosRedux$ = this.store.select((state) => state.alumnos.list);
+  //hay una convecnión con las variables reactivas, que es ponerle un $ al final
+  //Observable , va con $
+  loading$ = this.store.select((state) => state.alumnos.loading);
 
-
-  constructor(public alumnoService:AlumnoService, private router:Router)
-  {
+  constructor(
+    public alumnoService: AlumnoService,
+    private router: Router,
+  ) {
     //this.alumnoService //me traerá los datos por HTTP
     /*this.observerAlumnos = {
         complete: () => console.log('Comunicación terminada'),
@@ -54,9 +54,32 @@ export class AlumnoComponent implements OnInit {
       }*/
   }
   ngOnInit(): void {
-    // sí mi componente recibe datos de un servicio lo suyo es pedirlos dentro de este método 
+    // sí mi componente recibe datos de un servicio lo suyo es pedirlos dentro de este método
 
-    this.store.dispatch(AlumnosActions.loadAlumnos())
+    //si la lista esta vacía, cargo el remoto de service
+    //si no, tiro de local
+
+    /*
+    *Con take(1), aunque el estado cambie después, este código NO vuelve a reaccionar.
+    Solo reacciona una vez, cuando el componente se inicializa.
+    Así, evitamos que cuando alumnosRedux se actualice, se vuelva a llamar aquí*/
+    this.alumnosRedux$.pipe(take(1)).subscribe((alumnos) => {
+
+      if (alumnos.length === 0) {
+            this.store.dispatch(AlumnosActions.loadAlumnos());
+            this.alumnoService.leerTodosLosAlumnos().subscribe({
+              complete: () => console.log('Comunicación terminada'),
+              next: (alumnos) => {
+                console.log('Lista alumnos rx con ' + alumnos.length + ' alumnos');
+                this.lista_alumnos = alumnos;
+                this.store.dispatch(AlumnosActions.loadAlumnosSuccess({ alumnos }));
+              },
+              error: (errror_rx) => console.error(errror_rx),
+            });
+      }
+    });
+
+    /*this.store.dispatch(AlumnosActions.loadAlumnos())
     this.alumnoService.leerTodosLosAlumnos().subscribe(
       {
         complete: () => console.log('Comunicación terminada'),
@@ -67,46 +90,41 @@ export class AlumnoComponent implements OnInit {
         },
         error: (errror_rx) => console.error(errror_rx)
       }
-    )
+    )*/
   }
 
-borrarAlumno(idBorrar:number)
-{
-
-  console.log("Ha tocado borrar el " + idBorrar);
-  if (confirm(`¿Deseas eliminar al alumno ${idBorrar}`))
-  {
-    this.alumnoService.borrarAlumnoPorId(idBorrar).subscribe(
-       {
+  borrarAlumno(idBorrar: number) {
+    console.log('Ha tocado borrar el ' + idBorrar);
+    if (confirm(`¿Deseas eliminar al alumno ${idBorrar}`)) {
+      this.alumnoService.borrarAlumnoPorId(idBorrar).subscribe({
         complete: () => console.log('Comunicación terminada'),
         next: () => {
-          console.log('Alumno borrado')
+          console.log('Alumno borrado');
           //TODO: borrar al alumno del listado
-           this.lista_alumnos = this.lista_alumnos.filter(a => a.id!=idBorrar)
-          
-          },
-        error: (errror_rx) => console.error(errror_rx)
-      }
-    )
-
-  } else {
-    console.log("Cancela borrado")
+          this.lista_alumnos = this.lista_alumnos.filter(
+            (a) => a.id != idBorrar,
+          );
+          this.store.dispatch(AlumnosActions.deleteAlumnosSuccess({id:idBorrar}))
+        },
+        error: (errror_rx) => console.error(errror_rx),
+      });
+    } else {
+      console.log('Cancela borrado');
+    }
   }
 
-}
-
-editarAlumno(alumno:Alumno){
-console.log("Ha tocado editar el " + alumno.id)
-//OPCIÓN 1)
-//this.alumnoService.guardarAlumnnoEnEdicion(alumno)
-//OPCIÓN 2)
-//sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
-//this.router.navigate(["/alumno/form/edit", alumno.id])
-//////OPCIÓN 3)
-this.router.navigate(["/alumno/form/edit", alumno.id])
-let alumnoCopy = {...alumno}
-}
-/*
+  editarAlumno(alumno: Alumno) {
+    console.log('Ha tocado editar el ' + alumno.id);
+    //OPCIÓN 1)
+    //this.alumnoService.guardarAlumnnoEnEdicion(alumno)
+    //OPCIÓN 2)
+    //sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
+    //this.router.navigate(["/alumno/form/edit", alumno.id])
+    //////OPCIÓN 3)
+    this.router.navigate(['/alumno/form/edit', alumno.id]);
+    let alumnoCopy = { ...alumno };
+  }
+  /*
 OPCIONES PARA COMPARTIR INFO ENTRE C'S
 
 1) VÍA SERIVICIO COMÚN V
@@ -115,5 +133,4 @@ OPCIONES PARA COMPARTIR INFO ENTRE C'S
 
 
 */
-
 }
