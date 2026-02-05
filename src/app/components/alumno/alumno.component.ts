@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { AlumnoService } from '../../services/alumno.service';
 import { Alumno } from '../../models/alumno';
 import { Observer, take } from 'rxjs';
@@ -23,12 +23,9 @@ import * as AlumnosActions from '../../alumnos/store/alumnos.actions';
   ],
 })
 export class AlumnoComponent implements OnInit {
-  //alumnoService2: AlumnoService = inject(AlumnoService) //forma moderna
 
   lista_alumnos!: Array<Alumno>;
-
   observerAlumnos!: Observer<Alumno>;
-
   //inyección, igual que por el parámetro del consucutor
   store = inject(Store); //obtengo la instancia del store (memoria de Redux)
 
@@ -43,68 +40,56 @@ export class AlumnoComponent implements OnInit {
     public alumnoService: AlumnoService,
     private router: Router,
   ) {
-    //this.alumnoService //me traerá los datos por HTTP
-    /*this.observerAlumnos = {
-        complete: () => console.log('Comunicación terminada'),
-        next: (lista_alumnos_rx: Array<Alumno>) => {
-          console.log('Lista alumnos rx con ' + lista_alumnos_rx.length + ' alumnos')
-          this.lista_alumnos = lista_alumnos_rx;
-        },
-        error: (errror_rx) => console.error(errror_rx)
-      }*/
   }
-  ngOnInit(): void {
-    // sí mi componente recibe datos de un servicio lo suyo es pedirlos dentro de este método
 
+@HostListener('window:beforeunload', ['$event'])
+avisoRecarga(event: BeforeUnloadEvent) {
+  event.preventDefault();
+  event.returnValue = '';
+}
+
+
+
+   getAlumnosFromService ()
+  {
+    this.alumnoService.leerTodosLosAlumnos().subscribe(
+      {
+        complete: () => {console.log("comunicaión completada");},
+        error: (error_rx) => {console.error(error_rx);},
+        next: (alumnos) => {
+          //quiero mostrar los ids de los alumnos rx
+          alumnos.forEach( alumno => {console.log(alumno.id);})
+          this.lista_alumnos = alumnos;
+          this.store.dispatch(AlumnosActions.loadAlumnosSuccess({ alumnos }));
+        }
+      }
+    );
+  }
+
+  ngOnInit(): void {
     //si la lista esta vacía, cargo el remoto de service
     //si no, tiro de local
-
-    /*
-    *Con take(1), aunque el estado cambie después, este código NO vuelve a reaccionar.
-    Solo reacciona una vez, cuando el componente se inicializa.
-    Así, evitamos que cuando alumnosRedux se actualice, se vuelva a llamar aquí*/
     this.alumnosRedux$.pipe(take(1)).subscribe((alumnos) => {
 
       if (alumnos.length === 0) {
             this.store.dispatch(AlumnosActions.loadAlumnos());
-            this.alumnoService.leerTodosLosAlumnos().subscribe({
-              complete: () => console.log('Comunicación terminada'),
-              next: (alumnos) => {
-                console.log('Lista alumnos rx con ' + alumnos.length + ' alumnos');
-                this.lista_alumnos = alumnos;
-                this.store.dispatch(AlumnosActions.loadAlumnosSuccess({ alumnos }));
-              },
-              error: (errror_rx) => console.error(errror_rx),
-            });
+            this.getAlumnosFromService()
       }
     });
-
-    /*this.store.dispatch(AlumnosActions.loadAlumnos())
-    this.alumnoService.leerTodosLosAlumnos().subscribe(
-      {
-        complete: () => console.log('Comunicación terminada'),
-        next: (alumnos) => {
-          console.log('Lista alumnos rx con ' + alumnos.length + ' alumnos')
-          this.lista_alumnos = alumnos;
-          this.store.dispatch(AlumnosActions.loadAlumnosSuccess({alumnos}))
-        },
-        error: (errror_rx) => console.error(errror_rx)
-      }
-    )*/
   }
 
-  borrarAlumno(idBorrar: number) {
-    console.log('Ha tocado borrar el ' + idBorrar);
-    if (confirm(`¿Deseas eliminar al alumno ${idBorrar}`)) {
-      this.alumnoService.borrarAlumnoPorId(idBorrar).subscribe({
+  borrarAlumno(id: number) {
+    console.log('Ha tocado borrar el ' + id);
+    if (confirm(`¿Deseas eliminar al alumno ${id}`)) {
+      this.alumnoService.borrarAlumnoPorId(id).subscribe({
         complete: () => console.log('Comunicación terminada'),
         next: () => {
           console.log('Alumno borrado');
           //TODO: borrar al alumno del listado
-          this.lista_alumnos = this.lista_alumnos.filter(
-            (a) => a.id != idBorrar,
-          );
-          this.store.dispatch(AlumnosActions.deleteAlumnosSuccess({id:idBorrar}))
+        /*  this.lista_alumnos = this.lista_alumnos.filter(
+            (a) => a.id != id,
+          );*/
+          this.store.dispatch(AlumnosActions.deleteAlumnosSuccess({id}))
         },
         error: (errror_rx) => console.error(errror_rx),
       });
@@ -113,18 +98,7 @@ export class AlumnoComponent implements OnInit {
     }
   }
 
-  editarAlumno(alumno: Alumno) {
-    console.log('Ha tocado editar el ' + alumno.id);
-    //OPCIÓN 1)
-    //this.alumnoService.guardarAlumnnoEnEdicion(alumno)
-    //OPCIÓN 2)
-    //sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
-    //this.router.navigate(["/alumno/form/edit", alumno.id])
-    //////OPCIÓN 3)
-    this.router.navigate(['/alumno/form/edit', alumno.id]);
-    let alumnoCopy = { ...alumno };
-  }
-  /*
+    /*
 OPCIONES PARA COMPARTIR INFO ENTRE C'S
 
 1) VÍA SERIVICIO COMÚN V
@@ -133,4 +107,15 @@ OPCIONES PARA COMPARTIR INFO ENTRE C'S
 
 
 */
+  editarAlumno(alumno: Alumno) {
+    console.log('Ha tocado editar el ' + alumno.id);
+    //OPCIÓN 1)
+    this.alumnoService.guardarAlumnnoEnEdicion(alumno)
+    //OPCIÓN 2)
+    //sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
+    //this.router.navigate(["/alumno/form/edit", alumno.id])
+    //////OPCIÓN 3)
+    this.router.navigate(['/alumno/form/edit', alumno.id]);
+  }
+
 }

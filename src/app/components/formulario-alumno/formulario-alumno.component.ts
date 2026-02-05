@@ -85,8 +85,8 @@ export class FormularioAlumnoComponent implements OnInit {
       //con 2 -- compartimos alumno en edición por sessionStorage
       //con 3 -- compartimos alumno en edición via consulta al servidor
 
-      this.alumno =  await this.recuperarAlumno(3, +idEdit!) 
-      
+      this.alumno =  await this.recuperarAlumno(1, +idEdit!) 
+      this.alumno = {...this.alumno}
     } else {
       console.log('EN crear alumno')
     }
