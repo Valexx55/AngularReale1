@@ -87,9 +87,10 @@ console.log("Ha tocado editar el " + alumno.id)
 //OPCIÓN 1)
 //this.alumnoService.guardarAlumnnoEnEdicion(alumno)
 //OPCIÓN 2)
-sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
+//sessionStorage.setItem("alumnoed", JSON.stringify(alumno))
+//this.router.navigate(["/alumno/form/edit", alumno.id])
+//////OPCIÓN 3)
 this.router.navigate(["/alumno/form/edit", alumno.id])
-
 }
 /*
 OPCIONES PARA COMPARTIR INFO ENTRE C'S

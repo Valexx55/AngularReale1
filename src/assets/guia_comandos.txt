@@ -41,3 +41,7 @@ npm i @ng-icons/core@31 "adaptador a todos los iconos"
 
 creamos formulario alumno (para alta y modificación) -ng g c components/formularioAlumno
 enrutamos
+
+instalamos redux y su complemento para debug (devtools)
+
+ npm i @ngrx/store@19

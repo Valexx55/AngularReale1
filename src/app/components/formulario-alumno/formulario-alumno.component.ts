@@ -35,10 +35,11 @@ export class FormularioAlumnoComponent implements OnInit {
       }
     }
   }
-/*
+
   async recuperarAlumno(modo:number, idAlumno:number):Promise<Alumno>
   {
-    let alumnoEd:Alumno
+    console.log('Recuperando el alumno en modo ' + modo)
+    let alumnoEd!:Alumno
     switch (modo)
     {
       case 1: //vía servicio 
@@ -48,19 +49,19 @@ export class FormularioAlumnoComponent implements OnInit {
           let alumnoEdJson = sessionStorage.getItem("alumnoed");
           alumnoEd = JSON.parse(alumnoEdJson!)
       break;
-      case 3: 
+      case 3: //vía servidor
           alumnoEd =  await firstValueFrom( this.alumnoService.leerAlumnoPorId(idAlumno));
       break;
     }
     return alumnoEd
-  }*/
+  }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     
-    this.enEdicion = this.ruta.snapshot.paramMap.get('id')!=null
+    //this.enEdicion = this.ruta.snapshot.paramMap.get('id')!=null
     
-    //let idEdit = this.ruta.snapshot.paramMap.get('id');
-    //this.enEdicion = !!idEdit
+    let idEdit = this.ruta.snapshot.paramMap.get('id');
+    this.enEdicion = !!idEdit
     //de esta forma, pasamos a un boolean el dato y lo negamos !!
     //si es null, al hacer !null --> true y luego !true --> false
     //si es un número , al hacer !5 --> false luego !false --> true 
@@ -70,13 +71,12 @@ export class FormularioAlumnoComponent implements OnInit {
     {
       console.log('EN editar alumno')
 
-      //this.alumno = this.recuperarAlumno(1)
-      //OPCIÓN 1
-      //this.alumno = this.alumnoService.leerAlumnoEnEdicion()
-      //OPCIÓN 2 VÍA sessionStorage
-      let alumnoEdJson = sessionStorage.getItem("alumnoed");
-      this.alumno = JSON.parse(alumnoEdJson!)
-      //TODO: hacerlo genérico para el 3er método
+      //OJO: Sincronizar con llamada en AlumnoComponent.editarAlumno()
+      //con 1 -- compartimos alumno en edición por servicio común
+      //con 2 -- compartimos alumno en edición por sessionStorage
+      //con 3 -- compartimos alumno en edición via consulta al servidor
+
+      this.alumno =  await this.recuperarAlumno(3, +idEdit!) 
       
     } else {
       console.log('EN crear alumno')
