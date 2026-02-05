@@ -2,15 +2,17 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AlumnoService } from '../../services/alumno.service';
 import { Alumno } from '../../models/alumno';
 import { Observer } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import {NgIcon, provideIcons} from '@ng-icons/core'
 import { heroTrashSolid } from '@ng-icons/heroicons/solid';
 import { bootstrapPencilFill } from '@ng-icons/bootstrap-icons';
 import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as AlumnosActions from '../../alumnos/store/alumnos.actions'
 
 @Component({
   selector: 'app-alumno',
-  imports: [DatePipe, NgIcon, RouterLink],
+  imports: [DatePipe, NgIcon, RouterLink, AsyncPipe],
   templateUrl: './alumno.component.html',
   styleUrl: './alumno.component.css',
   providers: [
@@ -28,6 +30,16 @@ export class AlumnoComponent implements OnInit {
 
  observerAlumnos!: Observer<Alumno> 
 
+ //inyección, igual que por el parámetro del consucutor
+ store = inject(Store)//obtengo la instancia del store (memoria de Redux)
+
+ //alumnosRedux representa una lsita actualizada del store en tiempo real
+ //accedemos a la información centralizada en tiempo real
+ alumnosRedux$ = this.store.select(state => state.alumnos.list)
+//hay una convecnión con las variables reactivas, que es ponerle un $ al final
+//Observable , va con $
+ loading$ = this.store.select(state => state.alumnos.loading)
+
 
   constructor(public alumnoService:AlumnoService, private router:Router)
   {
@@ -44,13 +56,14 @@ export class AlumnoComponent implements OnInit {
   ngOnInit(): void {
     // sí mi componente recibe datos de un servicio lo suyo es pedirlos dentro de este método 
 
+    this.store.dispatch(AlumnosActions.loadAlumnos())
     this.alumnoService.leerTodosLosAlumnos().subscribe(
       {
         complete: () => console.log('Comunicación terminada'),
-        next: (lista_alumnos_rx) => {
-          console.log('Lista alumnos rx con ' + lista_alumnos_rx.length + ' alumnos')
-          this.lista_alumnos = lista_alumnos_rx;
-          
+        next: (alumnos) => {
+          console.log('Lista alumnos rx con ' + alumnos.length + ' alumnos')
+          this.lista_alumnos = alumnos;
+          this.store.dispatch(AlumnosActions.loadAlumnosSuccess({alumnos}))
         },
         error: (errror_rx) => console.error(errror_rx)
       }
@@ -91,6 +104,7 @@ console.log("Ha tocado editar el " + alumno.id)
 //this.router.navigate(["/alumno/form/edit", alumno.id])
 //////OPCIÓN 3)
 this.router.navigate(["/alumno/form/edit", alumno.id])
+let alumnoCopy = {...alumno}
 }
 /*
 OPCIONES PARA COMPARTIR INFO ENTRE C'S

@@ -1,7 +1,15 @@
 <button class="btn btn-primary" routerLink="/alumno/form">CREAR</button>
 <div class="listaAlumnos">
 
-    @for (alumno of lista_alumnos; track alumno.id) {
+    <!-- @for (alumno of lista_alumnos; track alumno.id) { 
+    con async se actualiza la lista alumnosRedux según
+    los eventos del observable 
+    -->
+    @if (loading$ | async) {
+        <p>Cargando...</p>
+}    @else {
+
+    @for (alumno of (alumnosRedux$ | async); track alumno.id) {
         <div class="card">
             <img class="card-img-top" src="https://randomuser.me/api/portraits/men/{{alumno.id}}.jpg">
             <div class="card-body">
@@ -24,5 +32,6 @@
             </div>
         </div>
     }
+}
 
 </div>
