@@ -1,4 +1,4 @@
-<form #formulario_alumno="ngForm" (ngSubmit)="crearAlumno()">
+<form #formulario_alumno="ngForm" (ngSubmit)="enEdicion ? editarAlumno() : crearAlumno()">
     <div class="form-group">
       <label for="nombre">Nombre</label>
       <input type="text" #nombre="ngModel" [(ngModel)]="alumno.nombre" class="form-control" id="nombre" name="nombre" placeholder="Introduzca su nombre" required pattern=".{4,15}">
@@ -28,5 +28,9 @@
         </div>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary" [disabled]="!formulario_alumno.valid">CREAR</button>
+    <!-- NOTA: AL HACER PROPERTY BINDING sobre [class] el compilador espera una expresión JS
+     si no, espera un literal (que lo proporciona la interpolación)-->
+    <!-- <button type="submit" class="{{(editando) ? 'btn btn-success' : 'btn btn-primary'}}" [disabled]="!formulario_alumno.valid">{{(editando) ? 'ACTUALIZAR' : 'CREAR' }}</button>
+    <button type="submit" [class]="(editando) ? 'btn btn-success' : 'btn btn-primary'" [disabled]="!formulario_alumno.valid">{{(editando) ? 'ACTUALIZAR' : 'CREAR' }}</button> -->
+    <button type="submit" [class]="estiloBoton()" [disabled]="!formulario_alumno.valid">{{(enEdicion) ? 'ACTUALIZAR' : 'CREAR'}}</button>
 </form>    

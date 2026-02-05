@@ -21,6 +21,9 @@ export class AlumnoService {
    * DELETE - BORRAR UN ALUMNO
    * 
    */
+
+  alumnoEnEdicion!:Alumno
+
   constructor(private httpClient:HttpClient) 
   {
     //this.httpClient nuestro cliente para interactuar con el API REST (JSON)
@@ -29,6 +32,16 @@ export class AlumnoService {
    cabeceras: HttpHeaders = new HttpHeaders({'Content-type':'application/json'})
    //GET ALL - LEER TODOS LOS ALUMNOS
 
+   guardarAlumnnoEnEdicion (alumno:Alumno)
+   {
+    this.alumnoEnEdicion = alumno;//guardamos temporalmente el alumno en edición, como memoria entre los C's alumno y formulario
+   }
+
+   leerAlumnoEnEdicion ():Alumno
+   {
+    return this.alumnoEnEdicion;
+  }
+   
    // al indicar el tipo de dato que recibo la petición angular automáticamente va de serializar el cuerpo de la respuesta en un array de alumnos   Array<Alumno>
    leerTodosLosAlumnos () : Observable<Array<Alumno>>
    {
@@ -43,5 +56,10 @@ export class AlumnoService {
    crearAlumno(alumno:Alumno): Observable<Alumno>
    {
     return this.httpClient.post<Alumno>(RUTA_SERVIDOR_ALUMNOS, alumno, {headers:this.cabeceras})
+   }
+
+   actualizarAlumno(alumno:Alumno): Observable<Alumno>
+   {
+    return this.httpClient.put<Alumno>(RUTA_SERVIDOR_ALUMNOS+"/"+alumno.id, alumno, {headers:this.cabeceras})
    }
 }

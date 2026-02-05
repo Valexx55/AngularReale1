@@ -1,9 +1,9 @@
 import { AlumnoService } from './../../services/alumno.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Alumno } from '../../models/alumno';
 import { Observer } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario-alumno',
@@ -11,12 +11,15 @@ import { Router } from '@angular/router';
   templateUrl: './formulario-alumno.component.html',
   styleUrl: './formulario-alumno.component.css'
 })
-export class FormularioAlumnoComponent {
+export class FormularioAlumnoComponent implements OnInit {
 
   alumno!:Alumno
   observador: Observer<Alumno>;
+  enEdicion!:Boolean;//para saber si he llegado al C para crear o Editar
 
-  constructor(private alumnoService:AlumnoService, private router:Router)
+  //Router //consigo gestionar la navegación de forma programática
+  //ActivatedRoute // consigo acceder al location HREF desde Angular
+  constructor(private alumnoService:AlumnoService, private router:Router, private ruta:ActivatedRoute)
   {
     this.alumno = new Alumno()
     
@@ -31,6 +34,40 @@ export class FormularioAlumnoComponent {
       }
     }
   }
+  ngOnInit(): void {
+    
+    this.enEdicion = this.ruta.snapshot.paramMap.get('id')!=null
+    if (this.enEdicion)
+    {
+      console.log('EN editar alumno')
+      this.alumno = this.alumnoService.leerAlumnoEnEdicion()
+    } else {
+      console.log('EN crear alumno')
+    }
+  }
+
+  //todo
+
+  estiloBoton ():string
+  {
+    let estilo:string=""
+
+      if (this.enEdicion)
+      {
+        estilo = "btn btn-success"
+      }else {
+        estilo = "btn btn-primary"
+      }
+
+    return estilo
+  }
+
+  
+  editarAlumno()
+  {
+    this.alumnoService.actualizarAlumno(this.alumno).subscribe(this.observador)
+  }
+  
 
   crearAlumno()
   {

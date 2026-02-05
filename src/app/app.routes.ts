@@ -10,5 +10,6 @@ export const routes: Routes = [
     {path:'dni', component: DniComponent},
     {path:'imc', component: ImcComponent},
     {path:'alumnos', component: AlumnoComponent},
-    {path:'alumno/form', component: FormularioAlumnoComponent}
+    {path:'alumno/form', component: FormularioAlumnoComponent},
+    {path:'alumno/form/edit/:id', component: FormularioAlumnoComponent}
 ];

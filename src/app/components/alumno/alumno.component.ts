@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import {NgIcon, provideIcons} from '@ng-icons/core'
 import { heroTrashSolid } from '@ng-icons/heroicons/solid';
 import { bootstrapPencilFill } from '@ng-icons/bootstrap-icons';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-alumno',
@@ -29,7 +29,7 @@ export class AlumnoComponent implements OnInit {
  observerAlumnos!: Observer<Alumno> 
 
 
-  constructor(public alumnoService:AlumnoService)
+  constructor(public alumnoService:AlumnoService, private router:Router)
   {
     //this.alumnoService //me traerá los datos por HTTP
     /*this.observerAlumnos = {
@@ -60,7 +60,7 @@ export class AlumnoComponent implements OnInit {
 borrarAlumno(idBorrar:number)
 {
 
-  console.log("Ha tocado borrar el " + idBorrar)
+  console.log("Ha tocado borrar el " + idBorrar);
   if (confirm(`¿Deseas eliminar al alumno ${idBorrar}`))
   {
     this.alumnoService.borrarAlumnoPorId(idBorrar).subscribe(
@@ -82,10 +82,20 @@ borrarAlumno(idBorrar:number)
 
 }
 
-editarAlumno(idEditar:number){
+editarAlumno(alumno:Alumno){
+console.log("Ha tocado editar el " + alumno.id)
+this.alumnoService.guardarAlumnnoEnEdicion(alumno)
+this.router.navigate(["/alumno/form/edit", alumno.id])
 
 }
+/*
+OPCIONES PARA COMPARTIR INFO ENTRE C'S
+
+1) VÍA SERIVICIO COMÚN V
+2) VÍA MEMORIA NAVEGADOR SESSIONSTORAGE X
+3) PETICIÓN AL SERVIDOR VÍA PARÁMETRO ID X
 
 
+*/
 
 }
