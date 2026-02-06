@@ -1,59 +1,125 @@
-# Ngreale
+# 📘 Angular – Recursos y Referencias del Curso
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.19.
+E
 
-## Development server
+Este README contiene las referencias a webs
+de interés usadas en el proyecto.  
+Además en esta ruta [se adjunta la Documentación](https://github.com/Valexx55/AngularReale1/tree/master/src/assets)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🅰️ Angular · Documentación oficial
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Home de Angular**  
+  https://angular.dev/
 
-## Code scaffolding
+- **Instalación de Angular**  
+  https://angular.dev/installation
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Guía de actualización de versiones**  
+  https://angular.dev/update-guide
 
-```bash
-ng generate component component-name
-```
+- **Compatibilidad de versiones**  
+  https://angular.dev/reference/versions
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Angular CLI – Referencia**  
+  https://angular.dev/cli
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## 🌐 Server-Side Rendering y Rendering híbrido
 
-To build the project run:
+- **Server-side and hybrid rendering (Angular SSR)**  
+  https://angular.dev/guide/ssr
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🧩 Componentes, plantillas y ciclo de vida
 
-## Running unit tests
+- **Interfaces dinámicas y control de flujo (`@if`, `@for`)**  
+  https://angular.dev/essentials/templates#control-flow-with-if-and-for
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- **Ciclo de vida de los componentes**  
+  https://angular.dev/guide/components/lifecycle
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## 📝 Formularios
 
-For end-to-end (e2e) testing, run:
+- **Template-driven forms (formularios de plantilla)**  
+  https://angular.dev/guide/forms/template-driven-forms
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🔁 RxJS y programación reactiva
 
-## Additional Resources
+- **Introducción a RxJS**  
+  https://rxjs.dev/guide/overview
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 🧠 TypeScript y JavaScript
+
+- **Operador Spread en JavaScript (MDN)**  
+  https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+
+- **Cómo clonar objetos en JavaScript (freeCodeCamp)**  
+  https://www.freecodecamp.org/espanol/news/copiar-un-objeto-en-js-como-clonar-un-objeto-en-javascript/
+
+- **Array.forEach() – MDN**  
+  https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+- **Non-null assertion operator (`!`) en TypeScript**  
+  https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
+
+---
+
+## 🗃️ Estado, almacenamiento y herramientas
+
+- **Redux DevTools (Chrome)**  
+  https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+
+- **Angular DevTools (Chrome)**  
+  https://chromewebstore.google.com/detail/angular-devtools/ienfalfjdbdpebioblfackkekamfmbnh
+
+- **Web Storage API (localStorage / sessionStorage)**  
+  https://developer.mozilla.org/es/docs/Web/API/Web_Storage_API
+
+---
+
+## 🎨 UI, iconos y estilos
+
+- **ng-icons – Librería de iconos para Angular**  
+  https://github.com/ng-icons/ng-icons
+
+---
+
+## 🔧 npm, Node y herramientas de desarrollo
+
+- **npm – Gestor de dependencias**  
+  https://www.npmjs.com/
+
+- **Node.js – Descarga**  
+  https://nodejs.org/en/download
+
+---
+
+## 🧪 Backend fake y APIs REST
+
+- **json-server (npm)**  
+  https://www.npmjs.com/package/json-server
+
+- **My JSON Server – REST API online fake**  
+  https://my-json-server.typicode.com/
+
+---
+
+## 📌 Notas finales
+
+- Todos los enlaces apuntan a **documentación oficial o recursos ampliamente utilizados** en el ecosistema Angular.
+- Se recomienda usar este README como **chuleta de consulta** y punto de partida para profundizar en cada tema.
+- Ideal como material complementario para formaciones, prácticas y proyectos personales.
+
+---
+
+✍️ *Material recopilado para formación en Angular.*
