@@ -1,6 +1,5 @@
 # 📘 Angular – Recursos y Referencias del Curso
 
-E
 
 Este README contiene las referencias a webs
 de interés usadas en el proyecto.  
