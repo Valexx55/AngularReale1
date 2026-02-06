@@ -65,3 +65,15 @@ Creamos nuevo componente para el juegoppt
  Modelamos los datos de un marcador
 
  ng g class models/marcador
+
+###########
+POR SI QUIERO PUBLICAR EN GITHUB 
+TENGO UNA LIBRERIA, QUE ME LO FACILITA
+
+npm install -D angular-cli-ghpages
+Remove-Item -Recurse -Force dist
+ng build -c production --base-href "/<NOMBRE_REPO>/"
+npx angular-cli-ghpages --dir=dist/ngreale/browser –clean
+
+importante para que esto funcione, estar autenticados en vuestra cuenta
+de github desde el terminal donde ejecutéis
