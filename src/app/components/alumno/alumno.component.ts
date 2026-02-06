@@ -42,6 +42,10 @@ export class AlumnoComponent implements OnInit {
   ) {
   }
 
+  /**
+   * 
+   * @param event aNTES
+   */
 @HostListener('window:beforeunload', ['$event'])
 avisoRecarga(event: BeforeUnloadEvent) {
   event.preventDefault();

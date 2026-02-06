@@ -45,3 +45,23 @@ enrutamos
 instalamos redux y su complemento para debug (devtools)
 
  npm i @ngrx/store@19
+
+ npm i @ngrx/store-devtools@19
+
+ CREAMOS las acciones, el estado inicial y el reducer
+ (/alumno/store)
+
+ Configuurar redux app config
+
+Creamos nuevo componente para el juegoppt
+
+ ng g c components/juegoppt
+
+ Creamos nuevo componente para el marcador
+
+ ng g c components/marcador
+
+ 
+ Modelamos los datos de un marcador
+
+ ng g class models/marcador

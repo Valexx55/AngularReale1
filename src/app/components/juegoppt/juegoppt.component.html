@@ -1,0 +1,35 @@
+<!--<app-juego-ppt>-->
+<div>
+    <div>
+        <h1>JUEGA y GANA</h1>
+    </div>
+    <div class="form-group">
+        <label for="nombre">Nombre Jugador</label>
+        <input type="text" name="nombre" class="form-control" [(ngModel)]="nombreJugador" id="nombre" placeholder="Intro nombre del jugador">
+    </div>
+    <br><br>
+        <div id="botonera" class="botones" >
+            <div  id="piedra" class="boton" (click)="seleccionUsuario(0, $event)">
+                <img #piedra src="/img/rock.png" alt="Piedra">
+            </div>
+            <div  id="papel" class="boton" (click)="seleccionUsuario(1, $event)">
+                <img #papel src="/img/paper.png" alt="Papel" >
+            </div>
+            <div  id="tijera" class="boton" (click)="seleccionUsuario(2, $event)">
+                <img  #tijera src="/img/scissors.png" alt="Tijera" >
+            </div>
+        </div>
+        <div class="contenedor">
+            <button class="button-play" (click)="aJugar()" [hidden]="!jugadoUsuario">Jugar</button>
+        </div>
+
+        <div id="botonera-p" class="botones-p" >
+            <div class="boton-p">
+                <img #imgpc alt="cp" id="computerPlay" src="assets/img/scissors.png" [hidden]="!jugadoPc">
+            </div>
+        </div> 
+
+</div>
+<app-marcador [nombreJugadorMarcador]="nombreJugador" (emisorMarcador)="informarMarcador($event)"></app-marcador>
+<!--</app-juego-ppt>-->
+
